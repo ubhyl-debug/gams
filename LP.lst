@@ -1,0 +1,243 @@
+GAMS 47.1.0  55516beb Jun 13, 2024          DAX-DAC arm 64bit/macOS - 06/30/24 19:54:55 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+   1  * Define the optimization problem
+   2  Set
+   3     i /1*5/;
+   4   
+   5  * Define the variables
+   6  Variables
+   7     x(i)        'decision variables'
+   8     obj         'objective function';
+   9   
+  10  * Set the objective function direction (minimize)
+  11  Positive Variables x;
+  12   
+  13  * Define the objective function
+  14  Equation
+  15     objfunc     'objective function'
+  16     eq1         'constraint 1'
+  17     eq2         'constraint 2'
+  18     eq3         'constraint 3'
+  19     ub          'upper bounds on x';
+  20   
+  21  objfunc ..   obj =e= -x('1') + x('2') + 10*x('3') + 5*x('4') + 6*x('5');
+  22   
+  23  eq1 ..      -x('1') + x('2') + 5*x('3') + 2*x('4') + 4*x('5') =e= 5;
+  24   
+  25  eq2 ..       5*x('1') - 2*x('2') + 9*x('3') + x('4') - 2*x('5') =e= -3;
+  26   
+  27  eq3 ..       2*x('1') + 2*x('2') + x('3') + 5*x('4') - 3*x('5') =e= 9;
+  28   
+  29  ub(i) ..     x(i) =l= 10;
+  30   
+  31  * Specify the model
+  32  Model lpModel /all/;
+  33   
+  34  * Solve the model using CPLEX
+  35  Solve lpModel using lp minimizing obj;
+  36   
+  37  * Display the results
+  38  Display x.l, obj.l;
+
+
+COMPILATION TIME     =        0.000 SECONDS      3 MB  47.1.0 55516beb DAX-DAC
+GAMS 47.1.0  55516beb Jun 13, 2024          DAX-DAC arm 64bit/macOS - 06/30/24 19:54:55 Page 2
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Equation Listing    SOLVE lpModel Using LP From line 35
+
+
+---- objfunc  =E=  objective function
+
+objfunc..  x(1) - x(2) - 10*x(3) - 5*x(4) - 6*x(5) + obj =E= 0 ; (LHS = 0)
+     
+
+---- eq1  =E=  constraint 1
+
+eq1..  - x(1) + x(2) + 5*x(3) + 2*x(4) + 4*x(5) =E= 5 ; (LHS = 0, INFES = 5 ****)
+     
+
+---- eq2  =E=  constraint 2
+
+eq2..  5*x(1) - 2*x(2) + 9*x(3) + x(4) - 2*x(5) =E= -3 ; (LHS = 0, INFES = 3 ****)
+     
+
+---- eq3  =E=  constraint 3
+
+eq3..  2*x(1) + 2*x(2) + x(3) + 5*x(4) - 3*x(5) =E= 9 ; (LHS = 0, INFES = 9 ****)
+     
+
+---- ub  =L=  upper bounds on x
+
+ub(1)..  x(1) =L= 10 ; (LHS = 0)
+     
+ub(2)..  x(2) =L= 10 ; (LHS = 0)
+     
+ub(3)..  x(3) =L= 10 ; (LHS = 0)
+     
+REMAINING 2 ENTRIES SKIPPED
+
+GAMS 47.1.0  55516beb Jun 13, 2024          DAX-DAC arm 64bit/macOS - 06/30/24 19:54:55 Page 3
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Column Listing      SOLVE lpModel Using LP From line 35
+
+
+---- x  decision variables
+
+x(1)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+        1       objfunc
+       -1       eq1
+        5       eq2
+        2       eq3
+        1       ub(1)
+
+x(2)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1       objfunc
+        1       eq1
+       -2       eq2
+        2       eq3
+        1       ub(2)
+
+x(3)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+      -10       objfunc
+        5       eq1
+        9       eq2
+        1       eq3
+        1       ub(3)
+
+REMAINING 2 ENTRIES SKIPPED
+
+---- obj  objective function
+
+obj
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       objfunc
+
+GAMS 47.1.0  55516beb Jun 13, 2024          DAX-DAC arm 64bit/macOS - 06/30/24 19:54:55 Page 4
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Range Statistics    SOLVE lpModel Using LP From line 35
+
+
+RANGE STATISTICS (ABSOLUTE NON-ZERO FINITE VALUES)
+
+RHS       [min, max] : [ 3.000E+00, 1.000E+01] - Zero values observed as well
+Bound     [min, max] : [        NA,        NA] - Zero values observed as well
+Matrix    [min, max] : [ 1.000E+00, 1.000E+01]
+
+GAMS 47.1.0  55516beb Jun 13, 2024          DAX-DAC arm 64bit/macOS - 06/30/24 19:54:55 Page 5
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Model Statistics    SOLVE lpModel Using LP From line 35
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS           5     SINGLE EQUATIONS            9
+BLOCKS OF VARIABLES           2     SINGLE VARIABLES            6
+NON ZERO ELEMENTS            26
+
+
+GENERATION TIME      =        0.003 SECONDS      4 MB  47.1.0 55516beb DAX-DAC
+GAMS 47.1.0  55516beb Jun 13, 2024          DAX-DAC arm 64bit/macOS - 06/30/24 19:54:55 Page 6
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Solution Report     SOLVE lpModel Using LP From line 35
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   lpModel             OBJECTIVE  obj
+     TYPE    LP                  DIRECTION  MINIMIZE
+     SOLVER  CPLEX               FROM LINE  35
+
+**** SOLVER STATUS     1 Normal Completion
+**** MODEL STATUS      1 Optimal
+**** OBJECTIVE VALUE                6.0877
+
+ RESOURCE USAGE, LIMIT          0.000 10000000000.000
+ ITERATION COUNT, LIMIT         3    2147483647
+*** This solver runs with a demo license. No commercial use.
+--- GMO setup time: 0.00s
+--- GMO memory 0.50 Mb (peak 0.50 Mb)
+--- Dictionary memory 0.00 Mb
+--- Cplex 22.1.1.0 link memory 0.00 Mb (peak 0.00 Mb)
+--- Starting Cplex
+
+
+--- LP status (1): optimal.
+--- Cplex Time: 0.00sec (det. 0.01 ticks)
+
+
+Optimal solution found
+Objective:            6.087719
+
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- EQU objfunc             .              .              .             1.0000      
+---- EQU eq1                5.0000         5.0000         5.0000         1.4912      
+---- EQU eq2               -3.0000        -3.0000        -3.0000         0.1404      
+---- EQU eq3                9.0000         9.0000         9.0000        -0.1053      
+
+  objfunc  objective function
+  eq1  constraint 1
+  eq2  constraint 2
+  eq3  constraint 3
+
+---- EQU ub  upper bounds on x
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1        -INF            1.2456        10.0000          .          
+2        -INF            4.0702        10.0000          .          
+3        -INF             .            10.0000          .          
+4        -INF             .            10.0000          .          
+5        -INF            0.5439        10.0000          .          
+
+---- VAR x  decision variables
+
+         LOWER          LEVEL          UPPER         MARGINAL
+
+1          .             1.2456        +INF             .          
+2          .             4.0702        +INF             .          
+3          .              .            +INF            1.3860      
+4          .              .            +INF            2.4035      
+5          .             0.5439        +INF             .          
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- VAR obj               -INF            6.0877        +INF             .          
+
+  obj  objective function
+
+
+**** REPORT SUMMARY :        0     NONOPT
+                             0 INFEASIBLE
+                             0  UNBOUNDED
+GAMS 47.1.0  55516beb Jun 13, 2024          DAX-DAC arm 64bit/macOS - 06/30/24 19:54:55 Page 7
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+E x e c u t i o n
+
+
+----     38 VARIABLE x.L  decision variables
+
+1 1.246,    2 4.070,    5 0.544
+
+
+----     38 VARIABLE obj.L                 =        6.088  objective function
+
+
+EXECUTION TIME       =        0.025 SECONDS      4 MB  47.1.0 55516beb DAX-DAC
+
+
+USER: GAMS Demo, for EULA and demo limitations see   G240530/0001CB-GEN
+      https://www.gams.com/latest/docs/UG%5FLicense.html         DC0000
+
+
+**** FILE SUMMARY
+
+Input      /Users/marencordts/Desktop/Room/Education/SS24/Einführung in die Stochastische Optimierung/Rechnerübung/LP.gms
+Output     /Users/marencordts/Desktop/Room/Education/SS24/Einführung in die Stochastische Optimierung/Rechnerübung/LP.lst
