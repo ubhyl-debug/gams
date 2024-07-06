@@ -55,10 +55,10 @@ con4.. x('i4') =l= 10;
 con5.. x('i5') =l= 10;
 x.lo(i) = 0;
 
-*Definition der Gradienten
+*Definition der Gradienten (zeilenweise)
 grad_mu(j).. g(j)=e= sum(i, A(j,i)* x(i))-b(j);
 
-*Definition des Subgradienten
+*Definition der Subgradienten (zeilenweise)
 *subgr(j)..sub(j)=e=      
 
 
@@ -85,6 +85,5 @@ delta_k = f_hat_k_minus_1 - f_mu;
 *Prüfe Stoppkriterium
 if (delta_k < delta, break);
 
-*f_hat
 
 )
