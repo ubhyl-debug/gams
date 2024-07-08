@@ -16,7 +16,7 @@ Parameter
     f_mu             * Wert der Funktion f für mu
     delta_k          * Differenz für Stoppkriterium
     f_hat_k          * Wert für f_hat
-    f_hat_k_minus_1 /1e20/
+    f_hat_k_minus_1
     subparam(j)      * Parameter to store subgradient values;
 * initialer (unendlicher) Wert für f_hat (Hier wird Wert der vorherigen It. gespeichert)
 
@@ -26,10 +26,11 @@ Variable
     z        Zielfunktionswert der Lagrangerelaxierung
     g(j)     Wert des Gradienten in Zeile j
     sub(j)   Wert des Subgradienten in Zeile j
-    f_hat_k_var      * Variable for f_hat_k;
+    f_hat_k_var      * Variable for f_hat_k
+    f_hat_new  Variable for new f_hat;
 
 Positive Variable
-    delta_x, y(j);
+    delta_x;
 
 Equation
     lag_function    Lagrange Relaxierung
@@ -39,7 +40,8 @@ Equation
     con2
     con3
     con4
-    con5  Ungleichungsrestriktionen
+    con5            Ungleichungsrestriktionen
+    fhat
     objfunc
     bounds;
 
@@ -76,7 +78,7 @@ x.lo(i) = 0;
 *grad_mu(j).. g(j) =e= sum(i, A(j,i) * x(i)) - b(j);
 
 * Definition der Subgradienten (zeilenweise)
-subgr(j).. sub(j) =e= g(j);
+*subgr(j).. sub(j) =e= g(j);
 
 * Beschränkungen für mu
 mu.lo(j) = -100;
@@ -100,13 +102,18 @@ y.up(j) = 100;
 
 * Define Optimization Problem to find mu_k+1
 * Equation for the objective function
-objfunc.. f_hat_k_var =e= f_mu + sum(j, subparam(j) * (y(j) - mu.l(j)));
+*objfunc..
+fhat.. f_hat_k_var =e= f_mu + sum(j, subparam(j) * (y(j) - mu.l(j)));
 
-Model FindMu /objfunc/;
+*Model FindMu /objfunc/;
 
-mu.l(j) = 0;
 * Calculate the subgradients using the optimal x(mu_k)
 grad_mu(j).. g(j) =e= sum(i, A(j,i) * x.l(i)) - b(j);
+
+*define new f_hat(step 5 algorithm)
+objfunc.. f_hat_new =e= min(f_hat_k_var, f_mu + sum(j, g.l(j) * (y(j) - mu.l(j))));
+    Model FindMu /objfunc/;
+
 *Schnittebenenverfahren
 
 loop(iter,
@@ -123,16 +130,16 @@ loop(iter,
 * Check Stopping Criterion
     if (delta_k < delta, break);
 * Update f_hat
-    f_hat_k = min(f_hat_k_minus_1, f_mu + sum(j, g.l(j) * (mu.l(j) - mu.l(j))));
-    
+  
 * Solve FindMu to find mu_k+1
-    Solve FindMu using nlp maximizing f_hat_k_var;
+
+    Solve FindMu using dnlp maximizing f_hat_new;
 
 * Update mu_k+1
     mu.l(j) = y.l(j);
 
 * Increment k and update f_hat_k_minus_1
-    f_hat_k_minus_1 = f_hat_k;
+    f_hat_k_minus_1 = f_hat_k_var.l;
 );
 
 * Final Solution
