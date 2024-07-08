@@ -1,0 +1,572 @@
+GAMS 47.1.0  55516beb Jun 13, 2024          WEX-WEI x86 64bit/MS Windows - 07/08/24 20:16:02 Page 1
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+C o m p i l a t i o n
+
+
+   1  Sets
+   2      s /1*10/;
+   3   
+   4  Parameters
+   5      ps(s) /
+   6          1 0.008879787280035216
+   7          2 0.2531272729529044
+   8          3 0.05557756667548357
+   9          4 0.12094171132547692
+  10          5 0.035887726627956466
+  11          6 0.024573168299676793
+  12          7 0.1574063690984937
+  13          8 0.20204437133785533
+  14          9 0.00393791885131994
+  15          10 0.1376241075507977 /;
+  16   
+  17  Parameters
+  18      h1(s) /
+  19          1 -87
+  20          2 60
+  21          3 15
+  22          4 -37
+  23          5 -86
+  24          6 46
+  25          7 73
+  26          8 58
+  27          9 -59
+  28          10 1 /;
+  29   
+  30  Parameters
+  31      h2(s) /
+  32          1 94
+  33          2 45
+  34          3 -92
+  35          4 0
+  36          5 87
+  37          6 78
+  38          7 45
+  39          8 -62
+  40          9 34
+  41          10 41 /;
+  42   
+  43  Variables
+  44      x1, x2, x3, x4
+  45      y1(s), y2(s), y3(s), y4(s)
+  46      obj;
+  47   
+  48  Positive Variables
+  49      x1, x2, x3, x4
+  50      y1(s), y2(s), y3(s), y4(s);
+  51   
+  52  Equations
+  53      obj_def
+  54      constr1
+  55      constr2
+  56      constr3
+  57      constr4(s)
+  58      constr5(s);
+  59   
+  60  obj_def ..
+  61      obj =e= 2*x1 - 7*x2 + 4*x3 - 2*x4 + sum(s, ps(s)*(2*y1(s) + 4*y2(s) + y3(s) + 8*y4(s)));
+  62   
+  63  constr1 ..
+  64      x1 + x2 + 2*x3 + 5*x4 =e= 20;
+  65   
+  66  constr2 ..
+  67      2*x1 + 5*x2 - 7*x3 + 11*x4 =e= 5;
+  68   
+  69  constr3 ..
+  70      -x1 + 6*x2 + x3 - 5*x4 =e= -4;
+  71   
+  72  constr4(s) ..
+  73      -5*x1 + 2*x2 - 4*x3 + 3*x4 - 2*y1(s) + 4*y2(s) + y3(s) + 2*y4(s) =e= h1(s);
+  74   
+  75  constr5(s) ..
+  76      3*x1 + x2 + 8*x3 + 8*x4 + y1(s) + y2(s) + y3(s) - 5*y4(s) =e= h2(s);
+  77   
+  78  * Non-negativity constraints are implicit in GAMS for positive variables
+  79  *Positive Variables x1, x2, x3, x4, y1(s), y2(s), y3(s), y4(s);
+  80   
+  81  Model SOPmodel /all/;
+  82   
+  83  Solve SOPmodel using lp minimizing obj;
+  84   
+  85  Display x1.l, x2.l, x3.l, x4.l, y1.l, y2.l, y3.l, y4.l, obj.l;
+
+
+COMPILATION TIME     =        0.000 SECONDS      3 MB  47.1.0 55516beb WEX-WEI
+GAMS 47.1.0  55516beb Jun 13, 2024          WEX-WEI x86 64bit/MS Windows - 07/08/24 20:16:02 Page 2
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Equation Listing    SOLVE SOPmodel Using LP From line 83
+
+
+---- obj_def  =E=  
+
+obj_def..  - 2*x1 + 7*x2 - 4*x3 + 2*x4 - 0.0177595745600704*y1(1) - 0.506254545905809*y1(2) - 0.111155133350967*y1(3) - 0.241883422650954*y1(4) - 0.0717754532559129*y1(5) - 0.0491463365993536*y1(6) - 0.314812738196987*y1(7) - 0.404088742675711*y1(8) - 0.00787583770263988*y1(9) - 0.275248215101595*y1(10) - 0.0355191491201409*y2(1) - 1.01250909181162*y2(2) - 0.222310266701934*y2(3) - 0.483766845301908*y2(4) - 0.143550906511826*y2(5) - 0.0982926731987072*y2(6) - 0.629625476393975*y2(7) - 0.808177485351421*y2(8) - 0.0157516754052798*y2(9) - 0.550496430203191*y2(10) - 0.00887978728003522*y3(1) - 0.253127272952904*y3(2) - 0.0555775666754836*y3(3) - 0.120941711325477*y3(4) - 0.0358877266279565*y3(5) - 0.0245731682996768*y3(6) - 0.157406369098494*y3(7) - 0.202044371337855*y3(8) - 0.00393791885131994*y3(9) - 0.137624107550798*y3(10) - 0.0710382982402817*y4(1) - 2.02501818362324*y4(2) - 0.444620533403869*y4(3) - 0.967533690603815*y4(4) - 0.287101813023652*y4(5) - 0.196585346397414*y4(6) - 1.25925095278795*y4(7) - 1.61635497070284*y4(8) - 0.0315033508105595*y4(9) - 1.10099286040638*y4(10) + obj =E= 0 ; (LHS = 0)
+     
+
+---- constr1  =E=  
+
+constr1..  x1 + x2 + 2*x3 + 5*x4 =E= 20 ; (LHS = 0, INFES = 20 ****)
+     
+
+---- constr2  =E=  
+
+constr2..  2*x1 + 5*x2 - 7*x3 + 11*x4 =E= 5 ; (LHS = 0, INFES = 5 ****)
+     
+
+---- constr3  =E=  
+
+constr3..  - x1 + 6*x2 + x3 - 5*x4 =E= -4 ; (LHS = 0, INFES = 4 ****)
+     
+
+---- constr4  =E=  
+
+constr4(1)..  - 5*x1 + 2*x2 - 4*x3 + 3*x4 - 2*y1(1) + 4*y2(1) + y3(1) + 2*y4(1) =E= -87 ; (LHS = 0, INFES = 87 ****)
+     
+constr4(2)..  - 5*x1 + 2*x2 - 4*x3 + 3*x4 - 2*y1(2) + 4*y2(2) + y3(2) + 2*y4(2) =E= 60 ; (LHS = 0, INFES = 60 ****)
+     
+constr4(3)..  - 5*x1 + 2*x2 - 4*x3 + 3*x4 - 2*y1(3) + 4*y2(3) + y3(3) + 2*y4(3) =E= 15 ; (LHS = 0, INFES = 15 ****)
+     
+REMAINING 7 ENTRIES SKIPPED
+
+
+---- constr5  =E=  
+
+constr5(1)..  3*x1 + x2 + 8*x3 + 8*x4 + y1(1) + y2(1) + y3(1) - 5*y4(1) =E= 94 ; (LHS = 0, INFES = 94 ****)
+     
+constr5(2)..  3*x1 + x2 + 8*x3 + 8*x4 + y1(2) + y2(2) + y3(2) - 5*y4(2) =E= 45 ; (LHS = 0, INFES = 45 ****)
+     
+constr5(3)..  3*x1 + x2 + 8*x3 + 8*x4 + y1(3) + y2(3) + y3(3) - 5*y4(3) =E= -92 ; (LHS = 0, INFES = 92 ****)
+     
+REMAINING 7 ENTRIES SKIPPED
+
+GAMS 47.1.0  55516beb Jun 13, 2024          WEX-WEI x86 64bit/MS Windows - 07/08/24 20:16:02 Page 3
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Column Listing      SOLVE SOPmodel Using LP From line 83
+
+
+---- x1  
+
+x1
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -2       obj_def
+        1       constr1
+        2       constr2
+       -1       constr3
+       -5       constr4(1)
+       -5       constr4(2)
+       -5       constr4(3)
+       -5       constr4(4)
+       -5       constr4(5)
+       -5       constr4(6)
+       -5       constr4(7)
+       -5       constr4(8)
+       -5       constr4(9)
+       -5       constr4(10)
+        3       constr5(1)
+        3       constr5(2)
+        3       constr5(3)
+        3       constr5(4)
+        3       constr5(5)
+        3       constr5(6)
+        3       constr5(7)
+        3       constr5(8)
+        3       constr5(9)
+        3       constr5(10)
+
+
+---- x2  
+
+x2
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+        7       obj_def
+        1       constr1
+        5       constr2
+        6       constr3
+        2       constr4(1)
+        2       constr4(2)
+        2       constr4(3)
+        2       constr4(4)
+        2       constr4(5)
+        2       constr4(6)
+        2       constr4(7)
+        2       constr4(8)
+        2       constr4(9)
+        2       constr4(10)
+        1       constr5(1)
+        1       constr5(2)
+        1       constr5(3)
+        1       constr5(4)
+        1       constr5(5)
+        1       constr5(6)
+        1       constr5(7)
+        1       constr5(8)
+        1       constr5(9)
+        1       constr5(10)
+
+
+---- x3  
+
+x3
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -4       obj_def
+        2       constr1
+       -7       constr2
+        1       constr3
+       -4       constr4(1)
+       -4       constr4(2)
+       -4       constr4(3)
+       -4       constr4(4)
+       -4       constr4(5)
+       -4       constr4(6)
+       -4       constr4(7)
+       -4       constr4(8)
+       -4       constr4(9)
+       -4       constr4(10)
+        8       constr5(1)
+        8       constr5(2)
+        8       constr5(3)
+        8       constr5(4)
+        8       constr5(5)
+        8       constr5(6)
+        8       constr5(7)
+        8       constr5(8)
+        8       constr5(9)
+        8       constr5(10)
+
+
+---- x4  
+
+x4
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+        2       obj_def
+        5       constr1
+       11       constr2
+       -5       constr3
+        3       constr4(1)
+        3       constr4(2)
+        3       constr4(3)
+        3       constr4(4)
+        3       constr4(5)
+        3       constr4(6)
+        3       constr4(7)
+        3       constr4(8)
+        3       constr4(9)
+        3       constr4(10)
+        8       constr5(1)
+        8       constr5(2)
+        8       constr5(3)
+        8       constr5(4)
+        8       constr5(5)
+        8       constr5(6)
+        8       constr5(7)
+        8       constr5(8)
+        8       constr5(9)
+        8       constr5(10)
+
+
+---- y1  
+
+y1(1)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -0.0178  obj_def
+       -2       constr4(1)
+        1       constr5(1)
+
+y1(2)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -0.5063  obj_def
+       -2       constr4(2)
+        1       constr5(2)
+
+y1(3)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -0.1112  obj_def
+       -2       constr4(3)
+        1       constr5(3)
+
+REMAINING 7 ENTRIES SKIPPED
+
+---- y2  
+
+y2(1)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -0.0355  obj_def
+        4       constr4(1)
+        1       constr5(1)
+
+y2(2)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -1.0125  obj_def
+        4       constr4(2)
+        1       constr5(2)
+
+y2(3)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -0.2223  obj_def
+        4       constr4(3)
+        1       constr5(3)
+
+REMAINING 7 ENTRIES SKIPPED
+
+---- y3  
+
+y3(1)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -0.0089  obj_def
+        1       constr4(1)
+        1       constr5(1)
+
+y3(2)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -0.2531  obj_def
+        1       constr4(2)
+        1       constr5(2)
+
+y3(3)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -0.0556  obj_def
+        1       constr4(3)
+        1       constr5(3)
+
+REMAINING 7 ENTRIES SKIPPED
+
+---- y4  
+
+y4(1)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -0.071   obj_def
+        2       constr4(1)
+       -5       constr5(1)
+
+y4(2)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -2.025   obj_def
+        2       constr4(2)
+       -5       constr5(2)
+
+y4(3)
+                (.LO, .L, .UP, .M = 0, 0, +INF, 0)
+       -0.4446  obj_def
+        2       constr4(3)
+       -5       constr5(3)
+
+REMAINING 7 ENTRIES SKIPPED
+
+---- obj  
+
+obj
+                (.LO, .L, .UP, .M = -INF, 0, +INF, 0)
+        1       obj_def
+
+GAMS 47.1.0  55516beb Jun 13, 2024          WEX-WEI x86 64bit/MS Windows - 07/08/24 20:16:02 Page 4
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Range Statistics    SOLVE SOPmodel Using LP From line 83
+
+
+RANGE STATISTICS (ABSOLUTE NON-ZERO FINITE VALUES)
+
+RHS       [min, max] : [ 1.000E+00, 9.400E+01] - Zero values observed as well
+Bound     [min, max] : [        NA,        NA] - Zero values observed as well
+Matrix    [min, max] : [ 3.938E-03, 1.100E+01]
+
+GAMS 47.1.0  55516beb Jun 13, 2024          WEX-WEI x86 64bit/MS Windows - 07/08/24 20:16:02 Page 5
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Model Statistics    SOLVE SOPmodel Using LP From line 83
+
+
+MODEL STATISTICS
+
+BLOCKS OF EQUATIONS           6     SINGLE EQUATIONS           24
+BLOCKS OF VARIABLES           9     SINGLE VARIABLES           45
+NON ZERO ELEMENTS           217
+
+
+GENERATION TIME      =        0.016 SECONDS      4 MB  47.1.0 55516beb WEX-WEI
+GAMS 47.1.0  55516beb Jun 13, 2024          WEX-WEI x86 64bit/MS Windows - 07/08/24 20:16:02 Page 6
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+Solution Report     SOLVE SOPmodel Using LP From line 83
+
+
+               S O L V E      S U M M A R Y
+
+     MODEL   SOPmodel            OBJECTIVE  obj
+     TYPE    LP                  DIRECTION  MINIMIZE
+     SOLVER  CPLEX               FROM LINE  83
+
+**** SOLVER STATUS     1 Normal Completion
+**** MODEL STATUS      1 Optimal
+**** OBJECTIVE VALUE              132.2172
+
+ RESOURCE USAGE, LIMIT          0.000 10000000000.000
+ ITERATION COUNT, LIMIT        23    2147483647
+*** This solver runs with a community license. No commercial use.
+--- GMO setup time: 0.00s
+--- GMO memory 0.50 Mb (peak 0.50 Mb)
+--- Dictionary memory 0.00 Mb
+--- Cplex 22.1.1.0 link memory 0.00 Mb (peak 0.00 Mb)
+--- Starting Cplex
+
+
+--- LP status (1): optimal.
+--- Cplex Time: 0.00sec (det. 0.13 ticks)
+
+
+Optimal solution found
+Objective:          132.217167
+
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- EQU obj_def             .              .              .             1.0000      
+---- EQU constr1           20.0000        20.0000        20.0000         3.8721      
+---- EQU constr2            5.0000         5.0000         5.0000        -1.3716      
+---- EQU constr3           -4.0000        -4.0000        -4.0000        -0.6076      
+
+---- EQU constr4  
+
+          LOWER          LEVEL          UPPER         MARGINAL
+
+1        -87.0000       -87.0000       -87.0000        -0.0030      
+2         60.0000        60.0000        60.0000         0.3222      
+3         15.0000        15.0000        15.0000        -0.1250      
+4        -37.0000       -37.0000       -37.0000        -0.2721      
+5        -86.0000       -86.0000       -86.0000        -0.0807      
+6         46.0000        46.0000        46.0000         0.0246      
+7         73.0000        73.0000        73.0000         0.2003      
+8         58.0000        58.0000        58.0000         0.2571      
+9        -59.0000       -59.0000       -59.0000        -0.0089      
+10         1.0000         1.0000         1.0000         0.1752      
+
+---- EQU constr5  
+
+          LOWER          LEVEL          UPPER         MARGINAL
+
+1         94.0000        94.0000        94.0000         0.0118      
+2         45.0000        45.0000        45.0000        -0.2761      
+3        -92.0000       -92.0000       -92.0000        -0.1389      
+4           .              .              .            -0.3024      
+5         87.0000        87.0000        87.0000        -0.0897      
+6         78.0000        78.0000        78.0000         EPS         
+7         45.0000        45.0000        45.0000        -0.1717      
+8        -62.0000       -62.0000       -62.0000        -0.2204      
+9         34.0000        34.0000        34.0000        -0.0098      
+10        41.0000        41.0000        41.0000        -0.1501      
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- VAR x1                  .              .            +INF            6.7541      
+---- VAR x2                  .             0.7415        +INF             .          
+---- VAR x3                  .             3.6032        +INF             .          
+---- VAR x4                  .             2.4104        +INF             .          
+
+---- VAR y1  
+
+          LOWER          LEVEL          UPPER         MARGINAL
+
+1           .            42.1504        +INF             .          
+2           .              .            +INF            1.4267      
+3           .            22.2761        +INF             .          
+4           .            31.7761        +INF             .          
+5           .            40.6511        +INF             .          
+6           .              .            +INF            0.0983      
+7           .              .            +INF            0.8872      
+8           .              .            +INF            1.1388      
+9           .            37.0261        +INF             .          
+10          .              .            +INF            0.7757      
+
+---- VAR y2  
+
+          LOWER          LEVEL          UPPER         MARGINAL
+
+1           .              .            +INF            0.0355      
+2           .            14.5814        +INF             .          
+3           .              .            +INF            0.8615      
+4           .              .            +INF            1.8746      
+5           .              .            +INF            0.5563      
+6           .             7.5163        +INF             .          
+7           .            17.5360        +INF             .          
+8           .             4.3996        +INF             .          
+9           .              .            +INF            0.0610      
+10          .             0.8087        +INF             .          
+
+---- VAR y3  
+
+          LOWER          LEVEL          UPPER         MARGINAL
+
+1           .             2.9992        +INF             .          
+2           .              .            +INF            0.2071      
+3           .              .            +INF            0.3196      
+4           .              .            +INF            0.6954      
+5           .              .            +INF            0.2064      
+6           .            21.6334        +INF             .          
+7           .              .            +INF            0.1288      
+8           .              .            +INF            0.1653      
+9           .              .            +INF            0.0226      
+10          .              .            +INF            0.1126      
+
+---- VAR y4  
+
+          LOWER          LEVEL          UPPER         MARGINAL
+
+1           .              .            +INF            0.1362      
+2           .             3.6864        +INF             .          
+3           .            32.6253        +INF             .          
+4           .            16.1253        +INF             .          
+5           .             0.5003        +INF             .          
+6           .              .            +INF            0.1474      
+7           .             4.2773        +INF             .          
+8           .            23.0500        +INF             .          
+9           .            10.3753        +INF             .          
+10          .             1.7318        +INF             .          
+
+                           LOWER          LEVEL          UPPER         MARGINAL
+
+---- VAR obj               -INF          132.2172        +INF             .          
+
+
+**** REPORT SUMMARY :        0     NONOPT
+                             0 INFEASIBLE
+                             0  UNBOUNDED
+GAMS 47.1.0  55516beb Jun 13, 2024          WEX-WEI x86 64bit/MS Windows - 07/08/24 20:16:02 Page 7
+G e n e r a l   A l g e b r a i c   M o d e l i n g   S y s t e m
+E x e c u t i o n
+
+
+----     85 VARIABLE x1.L                  =        0.000  
+            VARIABLE x2.L                  =        0.741  
+            VARIABLE x3.L                  =        3.603  
+            VARIABLE x4.L                  =        2.410  
+
+----     85 VARIABLE y1.L  
+
+1 42.150,    3 22.276,    4 31.776,    5 40.651,    9 37.026
+
+
+----     85 VARIABLE y2.L  
+
+2  14.581,    6   7.516,    7  17.536,    8   4.400,    10  0.809
+
+
+----     85 VARIABLE y3.L  
+
+1  2.999,    6 21.633
+
+
+----     85 VARIABLE y4.L  
+
+2   3.686,    3  32.625,    4  16.125,    5   0.500,    7   4.277,    8  23.050,    9  10.375,    10  1.732
+
+
+----     85 VARIABLE obj.L                 =      132.217  
+
+
+EXECUTION TIME       =        0.313 SECONDS      4 MB  47.1.0 55516beb WEX-WEI
+
+
+USER: GAMS Community License for Lasse Eisenblaetter G240629|0002AO-GEN
+      Karlsruher Institut fuer Technologie - KIT, Institut fuer CL16436
+      License for teaching and research at degree granting institutions
+
+
+**** FILE SUMMARY
+
+Input      C:\Users\Lasse\Documents\GAMS\Studio\workspace\Aufgabe1b\Aufgabe 1b.gms
+Output     C:\Users\Lasse\Documents\GAMS\Studio\workspace\Aufgabe1b\Aufgabe 1b.lst
