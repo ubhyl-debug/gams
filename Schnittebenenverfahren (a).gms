@@ -74,12 +74,6 @@ con4.. x('i4') =l= 10;
 con5.. x('i5') =l= 10;
 x.lo(i) = 0;
 
-* Definition der Gradienten (zeilenweise)
-*grad_mu(j).. g(j) =e= sum(i, A(j,i) * x(i)) - b(j);
-
-* Definition der Subgradienten (zeilenweise)
-*subgr(j).. sub(j) =e= g(j);
-
 * Beschränkungen für mu
 mu.lo(j) = -100;
 mu.up(j) = 100;
@@ -121,15 +115,18 @@ loop(iter,
 * Calculate f_mu
     Solve RelaxedProblem using nlp minimizing z;
     f_mu = z.l;
+    
 * Calculate the subgradients using the optimal x(mu_k)
     g.l(j) = sum(i, A(j,i) * x.l(i)) - b(j);
     sub.l(j) = g.l(j);
     subparam(j) = g.l(j);
+    
 * Define delta_k
     delta_k = f_hat_k_minus_1 - f_mu;
+    
 * Check Stopping Criterion
     if (delta_k < delta, break);
-* Update f_hat
+    
   
 * Solve FindMu to find mu_k+1
 
